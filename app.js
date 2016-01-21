@@ -34,6 +34,25 @@ app.get('/', function(req,res){
 	res.render("welcome");
 });
 
+app.get('/ailments',function(req,res){
+	res.render("ailmentsPartial");
+})
+
+app.get('/ailments/list', function(req,res){
+	db.collection('ailments').find({}).toArray(function(err,results){
+		res.json({ailments: results})
+	});
+})
+app.post('/users/new', function(req,res){
+	// console.log(req.body);
+	var new_user = req.body;
+	new_user.ailments=[];
+	new_user.fav_recipies=[];
+	db.collection('users').insert(new_user,function(err,result){
+		res.json(result);
+	})
+});
+
 
 
 app.listen(process.env.PORT || 3000);

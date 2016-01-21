@@ -12,32 +12,38 @@
 <body>
 	<div class="welcome-div" ng-controller="UsersController as users">
 		<h1>Welcome to Alimenting with Ailments</h1>
-		<a ng-click="users.isFormActive = !users.isFormActive" ng-hide="users.isSignInActive" href="#">Join Our Community</a>
-			<form ng-show="users.isFormActive" ng-submit="users.new()">
-			<label>First Name:</label>
-			<input type="text" ng-model="users.f_name"><br>
-			<label>Last Name:</label>
-			<input type="text" ng-model="users.l_name"><br>
-			<label>E-mail:</label>
-			<input type="text" ng-model="users.email"><br>
-			<label>Password:</label>
-			<input type="password"  ng-model="users.password"><br>
-			<label>Password Confirmation:</label>
-			<input type="password" ng-model="users.pass_confirm"><br>
-			<input type="submit" id="add-user-btn" value="Join">
- 		</form>
-		<a ng-hide="users.isFormActive" ng-click="users.isSignInActive = !users.isSignInActive" href="#">Sign In</a>
-			<form ng-show="users.isSignInActive" ng-submit="users.signIn()">
+		<div ng-switch on="users.selection">
+			<a ng-click="users.activate('join')" href="#">Join Our Community</a>
+			<a href="#" ng-click="users.activate('signIn')">Sign In</a>
+			<a ng-click="users.activate('ailments')" href="#">View Aliments for Specific Ailments</a>
+			<form ng-switch-when="join" ng-submit="users.new()">
+				<label>First Name:</label>
+				<input type="text" ng-model="users.f_name"><br>
+				<label>Last Name:</label>
+				<input type="text" ng-model="users.l_name"><br>
+				<label>E-mail:</label>
+				<input type="text" ng-model="users.email"><br>
+				<label>Password:</label>
+				<input type="password"  ng-model="users.password"><br>
+				<label>Password Confirmation:</label>
+				<input type="password" ng-model="users.pass_confirm"><br>
+				<input type="submit" id="add-user-btn" value="Join">
+	 		</form>
+			
+			<form ng-switch-when="signIn" ng-submit="users.signIn()">
 				<label>E-mail:</label>
 				<input type="text" ng-model="users.email"><br>
 				<label>Password:</label>
 				<input type="password" ng-model="users.password"><br>
 				<input type="submit" id="sign-in-btn" value="Sign In">
 			</form>
+
 		
-		<a ng-hide="users.isFormActive" ng-show="!users.isSignInActive" ng-click="showAliments('/aliments')" href="#">View Aliments for Specific Ailments</a>
-		<div ng-include="alimentsPartial.ejs"></div>
-	</div>
+			<div ng-switch-when="ailments">
+				<div ng-include src="'/ailments'"></div>
+			</div>
+		</div><!--ends ng-switch-->
+	</div><!--end usersController-->
 
 </body>
 </html>

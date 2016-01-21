@@ -1,0 +1,11 @@
+<h1>Hello</h1>
+{{users.ailmentsList}}
+	<select name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
+		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment.name}}">{{ailment.name}}</option>
+	</select>
+	<div class="foods-consume">
+		<h2>Foods to Consume</h2>
+		<ul>
+			<li ng-repeat="illness in users.selected">{{illness.foods_consume}}
+		</ul>
+	</div>

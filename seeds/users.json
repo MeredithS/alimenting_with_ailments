@@ -1,13 +1,13 @@
 [
 {"first_name": "Meredith",
 "last_name": "Salguero",
-"e-mail":"Merbear@gmail.com",
+"e_mail":"Merbear@gmail.com",
 "ailments":["Hypothyroidism", "Gout", "Diabetes"],
 "fav_recipies":[]
 },
 {"first_name": "Chris",
 "last_name": "Johnson",
-"e-mail":"SurferBoi@gmail.com",
+"e_mail":"SurferBoi@gmail.com",
 "ailments":["Heart Disease"],
 "fav_recipies":[]
 }]
