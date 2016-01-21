@@ -1,4 +1,4 @@
-# aliment_with_ailments
+# alimenting_with_ailments
 
 ###Description###
 Food is an essentail part of healing and nutrition. This app will allow users to select/choose from a list of ailments they may have.  The app will then list foods they should try to avoid and foods they should strive to eat as well as suggest recepies with those foods in it.  For example people with gout shoud try to avoid eating pork but should consume sweet potatoes. Recepies including sweet potatoes would be offered to the user along with other foods good for gout.
@@ -31,4 +31,5 @@ Once the user is logged in and directed to the ailments page a list of foods to 
 
 ###ERD###
 ![ERD](img/ERD.JPG)
+
 
