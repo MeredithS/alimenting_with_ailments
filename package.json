@@ -1,0 +1,29 @@
+{
+  "name": "aliment_with_ailments",
+  "version": "1.0.0",
+  "description": "###Description### Food is an essentail part of healing and nutrition. This app will allow users to select/choose from a list of ailments they may have.  The app will then list foods they should try to avoid and foods they should strive to eat as well as suggest recepies with those foods in it.  For example people with gout shoud try to avoid eating pork but should consume sweet potatoes. Recepies including sweet potatoes would be offered to the user along with other foods good for gout.",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "mongodb": "^2.1.4",
+    "node-mongo-seeds": "^2.2.7",
+    "unirest": "^0.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeredithS/aliment_with_ailments.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MeredithS/aliment_with_ailments/issues"
+  },
+  "homepage": "https://github.com/MeredithS/aliment_with_ailments#readme"
+}

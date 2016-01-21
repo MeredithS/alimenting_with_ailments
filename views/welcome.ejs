@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app='Alimenting'>
+<head>
+	<meta charset="UTF-8">
+	<title>Alimenting with Ailments</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="/angular/angular.js"></script>
+	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src='/js/users_controller.js'></script>
+</head>
+<body>
+	<div class="welcome-div" ng-controller="UsersController as users">
+		<h1>Welcome to Alimenting with Ailments</h1>
+		<a ng-click="users.isFormActive = !users.isFormActive" ng-hide="users.isSignInActive" href="#">Join Our Community</a>
+			<form ng-show="users.isFormActive" ng-submit="users.new()">
+			<label>First Name:</label>
+			<input type="text" ng-model="users.f_name"><br>
+			<label>Last Name:</label>
+			<input type="text" ng-model="users.l_name"><br>
+			<label>E-mail:</label>
+			<input type="text" ng-model="users.email"><br>
+			<label>Password:</label>
+			<input type="password"  ng-model="users.password"><br>
+			<label>Password Confirmation:</label>
+			<input type="password" ng-model="users.pass_confirm"><br>
+			<input type="submit" id="add-user-btn" value="Join">
+ 		</form>
+		<a ng-hide="users.isFormActive" ng-click="users.isSignInActive = !users.isSignInActive" href="#">Sign In</a>
+			<form ng-show="users.isSignInActive" ng-submit="users.signIn()">
+				<label>E-mail:</label>
+				<input type="text" ng-model="users.email"><br>
+				<label>Password:</label>
+				<input type="password" ng-model="users.password"><br>
+				<input type="submit" id="sign-in-btn" value="Sign In">
+			</form>
+		
+		<a ng-hide="users.isFormActive" ng-show="!users.isSignInActive" ng-click="showAliments('/aliments')" href="#">View Aliments for Specific Ailments</a>
+		<div ng-include="alimentsPartial.ejs"></div>
+	</div>
+
+</body>
+</html>

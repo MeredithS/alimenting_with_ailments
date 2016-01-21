@@ -1,0 +1,6 @@
+[{
+	"name":"Gout",
+	"foods_consume":["beans and lentils",
+"legumes","fluids", "water", "low-fat dairy", "fat-free dairy", "whole grains", "oats", "brown rice", "barley","quinoa","sweet potatoes","fruits", "vegetables", "spinach","peas","asparagus","cauliflower", "mushrooms"],"foods_limit":["white bread","cakes","candy","pasta","grouse","mutton", "salmon", "turkey", "partridge", "goose","pheasant"],
+	"foods_avoid":["organ meats", "brain", "sweetbreads", "heart", "kidney", "liver", "pork", "herring", "anchovies", "mackerel", "mussels", "smelt", "sardines", "scallops", "tuna", "yeast", "beer", "wine", "liquor", "juice","soda"]
+	}]
