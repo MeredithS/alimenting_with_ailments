@@ -2,5 +2,13 @@
 	"name":"Gout",
 	"foods_consume":["beans and lentils",
 "legumes","fluids", "water", "low-fat dairy", "fat-free dairy", "whole grains", "oats", "brown rice", "barley","quinoa","sweet potatoes","fruits", "vegetables", "spinach","peas","asparagus","cauliflower", "mushrooms"],"foods_limit":["white bread","cakes","candy","pasta","grouse","mutton", "salmon", "turkey", "partridge", "goose","pheasant"],
-	"foods_avoid":["organ meats", "brain", "sweetbreads", "heart", "kidney", "liver", "pork", "herring", "anchovies", "mackerel", "mussels", "smelt", "sardines", "scallops", "tuna", "yeast", "beer", "wine", "liquor", "juice","soda"]
-	}]
+	"foods_avoid":["organ meats", "brain", "sweetbreads", "heart", "kidney", "liver", "pork", "herring", "anchovies", "mackerel", "mussels", "smelt", "sardines", "scallops", "tuna", "yeast", "beer", "wine", "liquor", "juice","soda"],
+	"resources":["http://www.healthline.com/"]
+	},
+	{
+		"name":"Cancer",
+		"foods_consume":["Apples","Blueberries","Broccoli","Cruciferous Vegetables","Cherries","Coffee","Cranberries","Flaxseed","Grapefruit","Beans","Peas","Lentils","Soy","Squash","Tea","Walnuts","Whole Grains","Berries","Dark Green Leafy Vegetables","Garlic","Grapes","Grape Juice","Tomatoes"],
+		"foods_limit":["bacon", "sausage", "lunch meats", "hot dogs","alcohol"],
+		"foods_avoid":["soft drinks", "sports drinks","fruit-flavored drinks","sugar","French fries", "potato chips", "ice cream", "donuts"],
+		"resources":["American Institue for Cancer Research","American Cancer Society"]
+		}]

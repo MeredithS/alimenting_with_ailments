@@ -1,11 +1,20 @@
-<h1>Hello</h1>
-{{users.ailmentsList}}
-	<select name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
-		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment.name}}">{{ailment.name}}</option>
+<h2>Please Select your Ailment</h2>
+	<select ng-change="users.changed()" name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
+		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 	</select>
-	<div class="foods-consume">
+	<div ng-show="users.isFoodsListActive" class="foods-consume">
 		<h2>Foods to Consume</h2>
 		<ul>
-			<li ng-repeat="illness in users.selected">{{illness.foods_consume}}
+			<li ng-repeat="food in users.foodsConsumeList">{{food}}</li>
 		</ul>
+		<h2>Foods to Limit</h2>
+		<ul>
+			<li ng-repeat="food in users.foodsLimitList">{{food}}</li>
+		</ul>
+		<h2>Foods to Avoid</h2>
+		<ul>
+			<li ng-repeat="food in users.foodsAvoidList">{{food}}</li>
+		</ul>
+		<h5>sources: {{users.sources}}</h5>
+
 	</div>

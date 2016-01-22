@@ -53,6 +53,17 @@ app.post('/users/new', function(req,res){
 	})
 });
 
+app.get('/aliments/:id', function(req,res){
+	var id =req.params.id
+	db.collection('ailments').findOne({_id: ObjectId(id)},function(err,result){
+		res.json(result);
+	})
+})
+
+app.get('/index', function(req,res){
+	res.render('index');
+})
+
 
 
 app.listen(process.env.PORT || 3000);

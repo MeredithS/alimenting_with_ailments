@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app='Alimenting'>
+<head>
+	<meta charset="UTF-8">
+	<title>Alimenting with Ailments</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="/angular/angular.js"></script>
+	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src='/js/clients_controller.js'></script>
+</head>
+<body>
+	<div class="index-div" ng-controller="ClientsController as clients">
+		<h1>Welcome</h1> <!--want to put user name here, I think that is done through sessions-->
+		<h2>My Ailments</h2>
+			<select name="ailmentSelected" id="ailmentSelected" ng-model="clients.selected">
+				<option ng-repeat="ailment in clients.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
+			</select>
+			<button ng-click="clients.ailmentList()">Add Ailment</button>
+	</div>
+</body>
+</html>
