@@ -11,22 +11,29 @@
 				clients.ailmentsList = response.data.ailments
 			});
 		
-		$http
-			.get('/myailments')
-			.then(function(response){
-				console.log(response.data)
+		clients.getMyAilments = function(){
+			$http
+				.get('/myailments')
+				.then(function(response){
+					console.log(response.data.ailments);
+					clients.me = response.data
+					clients.myailmentslist = response.data.ailments
 			})
-
-		clients.addAilment = function(){
-
-			console.log('clicked');
-			// $http
-			// 	.get('/users/:sessionId/:ailmentId')
-			// 	.then(function(response){
-			// 		console.log(response.data)
-			// 	})
-
 		}
+
+		clients.getMyAilments();
+
+		// clients.addAilment = function(){
+		// 	console.log('clicked');
+		// 	var ailment = clients.selected
+		// 	console.log(ailment);
+		// 	$http
+		// 		.post('/users/addAilment',ailment)
+		// 		.then(function(response){
+		// 			// console.log('added');
+		// 			// clients.getMyAilments();
+		// 	})
+		// }
 
  		clients.foodList = function(){
  			$http

@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="index-div" ng-controller="ClientsController as clients">
-		<h1>Welcome</h1> <!--want to put user name here, I think that is done through sessions-->
+		<h1>Welcome {{clients.me.first_name}}</h1> 
 		<h2>My Ailments</h2>
 			<select name="ailmentSelected" id="ailmentSelected" ng-model="clients.selected">
 				<option ng-repeat="ailment in clients.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
@@ -19,7 +19,7 @@
 			<button ng-click="clients.addAilment()">Add Ailment</button>
 
 			<div>
-				
+				<h3 ng-repeat="myAilment in clients.myailmentslist">{{myAilment}}</h3>	
 			</div>
 
 

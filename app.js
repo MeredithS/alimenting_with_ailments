@@ -86,10 +86,8 @@ app.get('/index', function(req,res){
 	var user = req.session.name
 	console.log(user);
 	if (user){
-		console.log('bob');
 		res.render('index');
 	}else{
-		console.log('went home');
 		res.redirect('/');
 	}
 })
@@ -111,9 +109,16 @@ app.get('/logout', function(req,res){
 	res.redirect('/');
 })
 
-// app.get('/myailments', function(req,res){
-// 	var id = req.session.userID
-// 	db.collection.('users').findOne({_id: ObjectId(id)}, function(err,result){})
+app.get('/myailments', function(req,res){
+	var id = req.session.userID
+	db.collection('users').findOne({_id: ObjectId(id)}, function(err,result){
+		res.json(result);
+	})
+})
+
+// app.post('/users/addAilment', function(req,res){
+// 	console.log(req);
+// // 	// db.collection('ailments').findOne({_id: ObjectID()})
 // })
 
 
