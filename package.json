@@ -4,8 +4,10 @@
   "description": "###Description### Food is an essentail part of healing and nutrition. This app will allow users to select/choose from a list of ailments they may have.  The app will then list foods they should try to avoid and foods they should strive to eat as well as suggest recepies with those foods in it.  For example people with gout shoud try to avoid eating pork but should consume sweet potatoes. Recepies including sweet potatoes would be offered to the user along with other foods good for gout.",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
+    "express-session": "^1.13.0",
     "mongodb": "^2.1.4",
     "node-mongo-seeds": "^2.2.7",
     "unirest": "^0.4.2"

@@ -2,7 +2,7 @@
 	<select ng-change="users.changed()" name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
 		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 	</select>
-	<div ng-show="users.isFoodsListActive" class="foods-consume">
+	<div ng-show="users.isFoodsListActive" class="foods-list">
 		<h2>Foods to Consume</h2>
 		<ul>
 			<li ng-repeat="food in users.foodsConsumeList">{{food}}</li>

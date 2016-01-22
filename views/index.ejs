@@ -16,7 +16,32 @@
 			<select name="ailmentSelected" id="ailmentSelected" ng-model="clients.selected">
 				<option ng-repeat="ailment in clients.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 			</select>
-			<button ng-click="clients.ailmentList()">Add Ailment</button>
+			<button ng-click="clients.addAilment()">Add Ailment</button>
+
+			<div>
+				
+			</div>
+
+
+
+
+
+		<div ng-show="clients.showFoods" class="foods-list">
+		<h2>Foods to Consume</h2>
+		<ul>
+			<li ng-repeat="food in clients.foodsConsumeList">{{food}}</li>
+		</ul>
+		<h2>Foods to Limit</h2>
+		<ul>
+			<li ng-repeat="food in clients.foodsLimitList">{{food}}</li>
+		</ul>
+		<h2>Foods to Avoid</h2>
+		<ul>
+			<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
+		</ul>
+		<h5>sources: {{clients.sources}}</h5>
+
+	</div>
 	</div>
 </body>
 </html>

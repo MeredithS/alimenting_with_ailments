@@ -1,5 +1,6 @@
 angular.module('Alimenting').controller('UsersController', UsersController);
 
+
 function UsersController($http){
 	var users = this;
 
@@ -23,6 +24,12 @@ function UsersController($http){
 
 	users.signIn = function(){
 		console.log('clicked')
+		var user = {e_mail: users.email, password: users.password}
+		$http
+			.post('/login', user)
+			.then(function(response){
+				location.href="http://127.0.0.1:3000/index"
+			})
 	}
 
 	users.showAilments = function(){

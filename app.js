@@ -1,13 +1,33 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var unirest = require('unirest')
+var unirest = require('unirest');
+var session = require('express-session');
+var bcrypt = require('bcrypt');
+
+var authenticateUser = function(e_mail, password, callback) {
+  db.collection('users').findOne({e_mail: e_mail}, function(err, data) {
+    if (err) {throw err;}
+    bcrypt.compare(password, data.password_digest, function(err, passwordsMatch) {
+      if (passwordsMatch) {
+      	console.log('password correct')
+        callback(data);
+      } else {
+        callback(false);
+      }
+    })
+  });
+};
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname +'/bower_components'));
 app.set('view engine', 'ejs');
+app.use(session({
+  secret: 'Monty'
+}))
 
 var db;
 var MongoClient = require('mongodb').MongoClient;
@@ -18,6 +38,7 @@ MongoClient.connect(mongoUrl, function(err, database){
 		db = database;
 		process.on('exit', db.close);
 });
+
 
 //Routes go here
 app.get('/', function(req,res){
@@ -60,9 +81,40 @@ app.get('/aliments/:id', function(req,res){
 	})
 })
 
+
 app.get('/index', function(req,res){
-	res.render('index');
+	var user = req.session.name
+	console.log(user);
+	if (user){
+		console.log('bob');
+		res.render('index');
+	}else{
+		console.log('went home');
+		res.redirect('/');
+	}
 })
+
+app.post('/login',function(req,res){
+	authenticateUser(req.body.e_mail, req.body.password, function(user){
+		if(user){
+      req.session.name = user.first_name;
+      req.session.userID = user._id;
+      console.log('in session'); 
+      res.redirect('/index');
+    }
+	});
+})
+
+app.get('/logout', function(req,res){
+	req.session.name = null;
+	req.session.userID = null;
+	res.redirect('/');
+})
+
+// app.get('/myailments', function(req,res){
+// 	var id = req.session.userID
+// 	db.collection.('users').findOne({_id: ObjectId(id)}, function(err,result){})
+// })
 
 
 
