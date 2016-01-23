@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var unirest = require('unirest');
 var session = require('express-session');
 var bcrypt = require('bcrypt');
+var MongoStore = require('connect-mongo')(session)
 
 var authenticateUser = function(e_mail, password, callback) {
   db.collection('users').findOne({e_mail: e_mail}, function(err, data) {
@@ -19,14 +20,15 @@ var authenticateUser = function(e_mail, password, callback) {
   });
 };
 
-
+// app.use(bodyParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname +'/bower_components'));
 app.set('view engine', 'ejs');
 app.use(session({
-  secret: 'Monty'
+  secret: 'Monty',
+  store: new MongoStore({url: "mongodb://localhost:27017/aliment_app" })
 }))
 
 var db;
@@ -65,12 +67,14 @@ app.get('/ailments/list', function(req,res){
 	});
 })
 app.post('/users/new', function(req,res){
-	// console.log(req.body);
 	var new_user = req.body;
-	new_user.ailments=[];
-	new_user.fav_recipies=[];
-	db.collection('users').insert(new_user,function(err,result){
-		res.json(result);
+	bcrypt.hash(req.body.password_digest,8,function(err,hash){
+		new_user.password_digest = hash;
+		new_user.ailments=[];
+		new_user.fav_recipies=[];
+		db.collection('users').insert(new_user,function(err,result){
+			res.json(result);
+		})
 	})
 });
 
@@ -84,7 +88,6 @@ app.get('/aliments/:id', function(req,res){
 
 app.get('/index', function(req,res){
 	var user = req.session.name
-	console.log(user);
 	if (user){
 		res.render('index');
 	}else{
@@ -116,10 +119,22 @@ app.get('/myailments', function(req,res){
 	})
 })
 
-// app.post('/users/addAilment', function(req,res){
-// 	console.log(req);
-// // 	// db.collection('ailments').findOne({_id: ObjectID()})
-// })
+app.post('/users/addAilment', function(req,res){
+	db.collection('ailments').findOne({_id: ObjectId(req.body.ailment)}, function(err,result){
+		db.collection('users').update({_id: ObjectId(req.session.userID)},{$push: {ailments: result.name}}, function(error,data){
+			res.json(data);
+			})
+	})
+})
+
+app.get('/myaliments/:ailment', function(req,res){
+	console.log(req.params);
+	var name =req.params.ailment
+	db.collection('ailments').findOne({name: name},function(err,result){
+		// console.log(result);
+		res.json(result);
+	})
+})
 
 
 

@@ -10,7 +10,7 @@ function UsersController($http){
 		var user ={first_name : users.f_name,
 							last_name: users.l_name,
 							e_mail: users.email,
-							password: users.password}
+							password_digest: users.password}
 		$http
 			.post('/users/new', user)
 			.then(function(response){

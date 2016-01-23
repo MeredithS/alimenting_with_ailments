@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "bcrypt": "^0.8.5",
+    "connect-mongo": "^1.1.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "express-session": "^1.13.0",

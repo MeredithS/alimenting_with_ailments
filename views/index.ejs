@@ -18,30 +18,23 @@
 			</select>
 			<button ng-click="clients.addAilment()">Add Ailment</button>
 
-			<div>
-				<h3 ng-repeat="myAilment in clients.myailmentslist">{{myAilment}}</h3>	
+			<h3 ng-click="clients.activateAilment(myAilment)" ng-repeat="myAilment in clients.myailmentslist">{{myAilment}}</h3>
+
+			<div ng-if="clients.ailmentSelected"  class="foods-list">
+				<h2>Foods to Consume</h2>
+				<ul>
+					<li ng-repeat="food in clients.foodsConsumeList">{{food}}</li>
+				</ul>
+				<h2>Foods to Limit</h2>
+				<ul>
+					<li ng-repeat="food in clients.foodsLimitList">{{food}}</li>
+				</ul>
+				<h2>Foods to Avoid</h2>
+				<ul>
+					<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
+				</ul>
+				<h5>sources: {{clients.sources}}</h5>
 			</div>
-
-
-
-
-
-		<div ng-show="clients.showFoods" class="foods-list">
-		<h2>Foods to Consume</h2>
-		<ul>
-			<li ng-repeat="food in clients.foodsConsumeList">{{food}}</li>
-		</ul>
-		<h2>Foods to Limit</h2>
-		<ul>
-			<li ng-repeat="food in clients.foodsLimitList">{{food}}</li>
-		</ul>
-		<h2>Foods to Avoid</h2>
-		<ul>
-			<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
-		</ul>
-		<h5>sources: {{clients.sources}}</h5>
-
-	</div>
-	</div>
+	</div><!--end of controller-->
 </body>
 </html>

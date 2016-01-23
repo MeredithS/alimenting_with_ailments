@@ -23,28 +23,28 @@
 
 		clients.getMyAilments();
 
-		// clients.addAilment = function(){
-		// 	console.log('clicked');
-		// 	var ailment = clients.selected
-		// 	console.log(ailment);
-		// 	$http
-		// 		.post('/users/addAilment',ailment)
-		// 		.then(function(response){
-		// 			// console.log('added');
-		// 			// clients.getMyAilments();
-		// 	})
-		// }
+		clients.addAilment = function(){
+			var ailment = {ailment :clients.selected}
+			$http
+				.post('/users/addAilment',ailment)
+				.then(function(response){
+					clients.getMyAilments();
+			})
+		}
 
- 		clients.foodList = function(){
+ 		clients.foodList = function(selection){
  			$http
-			.get('/aliments/'+ clients.selected)
+			.get('/myaliments/'+ selection)
 			.then(function(response){
-				clients.showFoods = true;
 				clients.foodsConsumeList = response.data.foods_consume;
 				clients.foodsLimitList = response.data.foods_limit;
 				clients.foodsAvoidList = response.data.foods_avoid;
 				clients.sources = response.data.resources
-
 			})
+ 		}
+
+ 		clients.activateAilment = function(selection){
+ 			clients.ailmentSelected = selection
+ 			clients.foodList(selection);
  		}
  }
