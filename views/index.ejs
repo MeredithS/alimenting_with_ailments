@@ -34,6 +34,13 @@
 					<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
 				</ul>
 				<h5>sources: {{clients.sources}}</h5>
+				<div class="recipes">
+					<h2>Suggested Recepies</h2>
+						<div ng-repeat="recipe in clients.suggestedRecipes">
+							<img src="{{recipe.image}}">
+							<h4>{{recipe.title}}</h4>
+						</div>
+				</div>
 			</div>
 	</div><!--end of controller-->
 </body>

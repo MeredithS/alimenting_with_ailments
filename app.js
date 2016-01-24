@@ -44,16 +44,6 @@ MongoClient.connect(mongoUrl, function(err, database){
 
 //Routes go here
 app.get('/', function(req,res){
-// unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?excludeIngredients=coconut&limitLicense=false&number=100&offset=0&query=broccoli&type=main+course")
-// .header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-// .end(function (result) {
-//   console.log(result.body);
-// });
-// unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/494407/information")
-// .header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-// .end(function (result) {
-//   console.log(result.headers, result.body);
-// });
 	res.render("welcome");
 });
 
@@ -128,14 +118,65 @@ app.post('/users/addAilment', function(req,res){
 })
 
 app.get('/myaliments/:ailment', function(req,res){
-	console.log(req.params);
 	var name =req.params.ailment
 	db.collection('ailments').findOne({name: name},function(err,result){
-		// console.log(result);
 		res.json(result);
 	})
-})
+});
 
+app.get('/recipes/:ailment', function(req,res){
+	// var goodRecipes =[];
+	var name =req.params.ailment
+	db.collection('ailments').findOne({name: name},function(err,result){//this gets the information on the ailment that was clicked
+		var avoid = result.foods_avoid;
+		var consume = result.foods_consume;
+		var consumeString = consume.join(',');
+		var consumeReplace = consumeString.replace(/,/g, '%2C');
+		var consumeUrlReady = consumeReplace.replace(/\s/g, "+");
+		unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients="+consumeUrlReady+"&limitLicense=false&number=20&ranking=1")
+		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+		.header("Accept", "application/json")
+		.end(function (result) { //this returns a list of recipes based on the foods that you should increase consumption of
+			var goodRecipes =[];
+  		result.body.forEach(function(recipe){ //this loops through each of the recipes returned above.
+  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
+					.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+					.end(function (result) { //this returns information about a specific recipe
+						var allIng =[];
+  					ingredients = result.body.extendedIngredients
+  					ingredients.forEach(function(ingredient){
+  						var ingredientArray = ingredient.name.split(" ");
+  						allIng = allIng.concat(ingredientArray); //this is putting on the ingredients for each recipe into an array
+  					})
+  						// console.log("all Ingredients: "+ allIng);
+  						var isOkay;
+  						var badRecipe;
+  						for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
+  							for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
+  								if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
+  									isOkay = false; //if the ingredient matches on of the foods to avoid set the variable isOkay to false and exit the inside loop
+  									return
+  								}else{
+  									isOkay = true; //else set to true and keep iterating through the array
+  								}
+  							}
+	  						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
+	  							badRecipe = true
+	  							return
+	  						}else{
+	  							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
+	  						}
+  						}
+  						// console.log(badRecipe);
+  						if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
+  							goodRecipes.push(recipe); //push recipe into array.
+  						}
+				});
+  		})
+				console.log(goodRecipes);
+		});
+	})
+});
 
 
 app.listen(process.env.PORT || 3000);

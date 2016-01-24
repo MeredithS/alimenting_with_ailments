@@ -15,7 +15,6 @@
 			$http
 				.get('/myailments')
 				.then(function(response){
-					console.log(response.data.ailments);
 					clients.me = response.data
 					clients.myailmentslist = response.data.ailments
 			})
@@ -43,8 +42,18 @@
 			})
  		}
 
+ 		clients.getrecipe = function(selection){
+ 			$http
+ 			.get('/recipes/'+selection)
+ 			.then(function(response){
+ 				console.log(response.data)
+ 				// clients.suggestedRecipes = response.data;
+ 			})
+ 		}
+
  		clients.activateAilment = function(selection){
  			clients.ailmentSelected = selection
  			clients.foodList(selection);
+ 			clients.getrecipe(selection);
  		}
  }
