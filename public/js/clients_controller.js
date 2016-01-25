@@ -73,16 +73,25 @@
  			})
  		}
 
- 		clients.getFaveList = function(){
+ 		clients.removeFave = function(id){
+ 			var recipeId = {id:id};
  			$http
- 			.get('/myfaverecipes')
+ 			.post('/my-fave/delete', recipeId)
  			.then(function(response){
+ 				clients.getFaveList();
 
  			})
  		}
 
+ 		clients.getFaveList = function(){
+ 			$http
+ 			.get('/myfaverecipes')
+ 			.then(function(response){
+ 				clients.myFavRecipes = response.data;
+ 			})
+ 		}
+
  		clients.activateView = function(view){
- 			console.log(view);
  			clients.viewSelected = view;
  			if (view === 'faves'){
  				clients.getFaveList();

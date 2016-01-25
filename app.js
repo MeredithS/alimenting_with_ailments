@@ -222,19 +222,36 @@ app.get('/myfaves', function(req,res){
 	res.render("indexPartial");
 })
 
-var myRecipes =[];
+
 app.get('/myfaverecipes', function(req,res){
+	var myRecipes = [];
 	db.collection('users').findOne({_id: ObjectId(req.session.userID)}, function(err,result){
 		var myRecipeIds = (result.fav_recipies);
-		myRecipeIds.forEach(function(recipe){
-			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe+"/information")
-			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-			.end(function (result) {
-				myRecipes.push(result.body);
+		var promises = myRecipeIds.map(function(recipeId){
+			var url = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipeId+"/information"
+			return new Promise(function(resolve, reject){
+				unirest.get(url).header("X-Mashape-Key", process.env.X_MASHAPE_KEY).end(function(result){
+					myRecipes.push(result.body);
+					resolve();
+				})
 			})
 		})
+		Promise.all(promises).then(function(){
+			res.json(myRecipes)
+		});
 	})
 })
+
+app.post('/my-fave/delete', function(req,res){
+	console.log(req.body.id)
+	var id = req.body.id;
+	db.collection('users').update({_id: ObjectId(req.session.userID)},{$pull:{fav_recipies: id}}, function(err,result){
+			res.end();
+
+	})
+})
+
+
 
 
 app.listen(process.env.PORT || 3000);
