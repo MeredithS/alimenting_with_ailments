@@ -28,7 +28,7 @@ function UsersController($http){
 		$http
 			.post('/login', user)
 			.then(function(response){
-				// location.href="http://127.0.0.1:3000/index"
+				
 			})
 	}
 
