@@ -3,8 +3,6 @@
  function ClientsController($http){
  		var clients = this;
 
- 		clients.showFoods = false;
-
  		$http
 			.get('/ailments/list')
 			.then(function(response){
@@ -15,6 +13,7 @@
 			$http
 				.get('/myailments')
 				.then(function(response){
+					clients.viewSelected = 'ailments';
 					clients.me = response.data
 					clients.myailmentslist = response.data.ailments
 			})

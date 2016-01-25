@@ -7,17 +7,17 @@ var bcrypt = require('bcrypt');
 var MongoStore = require('connect-mongo')(session)
 
 var authenticateUser = function(e_mail, password, callback) {
-  db.collection('users').findOne({e_mail: e_mail}, function(err, data) {
-    if (err) {throw err;}
-    bcrypt.compare(password, data.password_digest, function(err, passwordsMatch) {
-      if (passwordsMatch) {
-      	console.log('password correct')
-        callback(data);
-      } else {
-        callback(false);
-      }
-    })
-  });
+	db.collection('users').findOne({e_mail: e_mail}, function(err, data) {
+		if (err) {throw err;}
+		bcrypt.compare(password, data.password_digest, function(err, passwordsMatch) {
+			if (passwordsMatch) {
+				console.log('password correct')
+				callback(data);
+			} else {
+				callback(false);
+			}
+		})
+	});
 };
 
 app.use(bodyParser.json());
@@ -29,17 +29,17 @@ app.set('view engine', 'ejs');
 var mongoUrl = process.env.MONGOLAB_URI|| 'mongodb://localhost:27017/aliment_app';
 
 app.use(session({
-  secret: 'Monty',
-  store: new MongoStore({url: mongoUrl })
+	secret: 'Monty',
+	store: new MongoStore({url: mongoUrl })
 }))
 
 var db;
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId
 MongoClient.connect(mongoUrl, function(err, database){
-		if(err){ throw err; }
-		db = database;
-		process.on('exit', db.close);
+	if(err){ throw err; }
+	db = database;
+	process.on('exit', db.close);
 });
 
 
@@ -89,12 +89,12 @@ app.get('/index', function(req,res){
 app.post('/login',function(req,res){
 	authenticateUser(req.body.e_mail, req.body.password, function(user){
 		if(user){
-      req.session.name = user.first_name;
-      req.session.userID = user._id;
-      console.log('in session'); 
+			req.session.name = user.first_name;
+			req.session.userID = user._id;
+			console.log('in session'); 
       res.redirect('/index');//could not figure out why this wouldn't work
     }
-	});
+  });
 })
 
 app.get('/logout', function(req,res){
@@ -114,7 +114,7 @@ app.post('/users/addAilment', function(req,res){
 	db.collection('ailments').findOne({_id: ObjectId(req.body.ailment)}, function(err,result){
 		db.collection('users').update({_id: ObjectId(req.session.userID)},{$push: {ailments: result.name}}, function(error,data){
 			res.json(data);
-			})
+		})
 	})
 })
 
@@ -126,7 +126,7 @@ app.get('/myaliments/:ailment', function(req,res){
 });
 
 app.get('/recipes/:ailment', function(req,res){
-	// var goodRecipes =[];
+	var goodRecipes =[];
 	var name =req.params.ailment
 	db.collection('ailments').findOne({name: name},function(err,result){//this gets the information on the ailment that was clicked
 		var avoid = result.foods_avoid;
@@ -138,47 +138,58 @@ app.get('/recipes/:ailment', function(req,res){
 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 		.header("Accept", "application/json")
 		.end(function (result) { //this returns a list of recipes based on the foods that you should increase consumption of
-			res.json(result.body)
-			// var goodRecipes =[];
-  	// 	result.body.forEach(function(recipe){ //this loops through each of the recipes returned above.
-  	// 		unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
-			// 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-			// 		.end(function (result) { //this returns information about a specific recipe
-			// 			var allIng =[];
-  	// 				ingredients = result.body.extendedIngredients
-  	// 				ingredients.forEach(function(ingredient){
-  	// 					var ingredientArray = ingredient.name.split(" ");
-  	// 					allIng = allIng.concat(ingredientArray); //this is putting on the ingredients for each recipe into an array
-  	// 				})
-  	// 					// console.log("all Ingredients: "+ allIng);
-  	// 					var isOkay;
-  	// 					var badRecipe;
-  	// 					for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
-  	// 						for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
-  	// 							if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
-  	// 								isOkay = false; //if the ingredient matches one of the foods to avoid set the variable isOkay to false and exit the inside loop
-  	// 								return
-  	// 							}else{
-  	// 								isOkay = true; //else set to true and keep iterating through the array
-  	// 							}
-  	// 						}
-	  // 						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
-	  // 							badRecipe = true
-	  // 							return
-	  // 						}else{
-	  // 							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
-	  // 						}
-  	// 					}
-  	// 					// console.log(badRecipe);
-  	// 					if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
-  	// 						goodRecipes.push(recipe); //push recipe into array.
-  	// 					}
-			// 	});
-  	// 	})
-			// 	console.log(goodRecipes);
-		});
-	})
-});
+
+			var allPromises = result.body.map(function(recipe) {
+				return new Promise(function(resolve, reject) {
+	  		// result.body.forEach(function(recipe){ //this loops through each of the recipes returned above.
+	  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
+	  			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+	  			.end(function (result) { //this returns information about a specific recipe
+	  				var allIng =[];
+	  				var ingredients = result.body.ingredients
+	  				// console.log('ingredients:', ingredients);
+	  				ingredients.forEach(function(ingredient){
+	  					var ingredientArray = ingredient.split(" ");
+	  						allIng = allIng.concat(ingredientArray); //this is putting in the ingredients for each recipe into an array
+	  					})
+	  						// console.log("all Ingredients: "+ allIng);
+	  						var isOkay;
+	  						var badRecipe;
+	  						for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
+	  							for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
+	  								if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
+	  									isOkay = false; //if the ingredient matches one of the foods to avoid set the variable isOkay to false and exit the inside loop
+	  									return
+	  								}else{
+	  									isOkay = true; //else set to true and keep iterating through the array
+	  								}
+	  							}
+		  						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
+		  							badRecipe = true
+		  							return
+		  						}else{
+		  							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
+		  						}
+		  					}
+	  						// console.log(badRecipe);
+	  						if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
+	  							goodRecipes.push(recipe); //push recipe into array.
+	  							console.log("I pushed in a recipe!")
+	  							resolve();
+	  						} else {
+	  							reject();
+	  						}
+	  					});
+	  		})// ends return of new promise
+
+			}); // ends map to allPromises function
+			Promise.all(allPromises).then(function() {
+				// console.log(goodRecipes);
+				console.log('I DID IT');
+			});
+		}); // ends first API call function
+	});// ends db call callback
+}); // ends app.get callback
 
 app.post('/removeAilment', function(req,res){
 	var name = req.body.name;
@@ -204,10 +215,10 @@ app.get('/myfaverecipes', function(req,res){
 		var myRecipeIds = (result.fav_recipies);
 		myRecipeIds.forEach(function(recipe){
 			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe+"/information")
-					.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-					.end(function (result) {
-						myRecipes.push(result.body);
-					})
+			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+			.end(function (result) {
+				myRecipes.push(result.body);
+			})
 		})
 	})
 })
