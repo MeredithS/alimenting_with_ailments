@@ -2,19 +2,27 @@
 	<select ng-change="users.changed()" name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
 		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 	</select>
-	<div ng-show="users.isFoodsListActive" class="foods-list">
-		<h2>Foods to Consume</h2>
-		<ul>
-			<li ng-repeat="food in users.foodsConsumeList">{{food}}</li>
-		</ul>
-		<h2>Foods to Limit</h2>
-		<ul>
-			<li ng-repeat="food in users.foodsLimitList">{{food}}</li>
-		</ul>
-		<h2>Foods to Avoid</h2>
-		<ul>
-			<li ng-repeat="food in users.foodsAvoidList">{{food}}</li>
-		</ul>
+		<div ng-show="users.isFoodsListActive" class="foods-list">
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Foods to Consume</h2>
+					<ul>
+						<li ng-repeat="food in users.foodsConsumeList">{{food}}</li>
+					</ul>
+				</div><!--end of col-md-4-->
+				<div class="col-md-4">
+					<h2>Foods to Limit</h2>
+					<ul>
+						<li ng-repeat="food in users.foodsLimitList">{{food}}</li>
+					</ul>
+				</div><!--end of col-md-4-->
+				<div class="col-md-4">
+					<h2>Foods to Avoid</h2>
+					<ul>
+						<li ng-repeat="food in users.foodsAvoidList">{{food}}</li>
+					</ul>
+				</div><!--end of col-md-4-->
+			</div><!--end of div row-->
 		<h5>sources: {{users.sources}}</h5>
 
 	</div>

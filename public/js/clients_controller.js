@@ -46,8 +46,7 @@
  			$http
  			.get('/recipes/'+selection)
  			.then(function(response){
- 				console.log(response.data)
- 				// clients.suggestedRecipes = response.data;
+ 				clients.suggestedRecipes = response.data;
  			})
  		}
 
@@ -56,4 +55,40 @@
  			clients.foodList(selection);
  			clients.getrecipe(selection);
  		}
+
+ 		clients.removeAilment = function(selection){
+ 			var ailment = {name: selection}
+ 			$http
+ 			.post('/removeAilment', ailment)
+ 			.then(function(response){
+ 				clients.getMyAilments();
+ 			})
+ 		}
+
+ 		clients.addToFaves = function(id){
+ 			var recipeId = {id:id};
+ 			$http
+ 			.post('/myfaves', recipeId)
+ 			.then(function(response){
+
+ 			})
+ 		}
+
+ 		clients.getFaveList = function(){
+ 			$http
+ 			.get('/myfaverecipes')
+ 			.then(function(response){
+
+ 			})
+ 		}
+
+ 		clients.activateView = function(view){
+ 			console.log(view);
+ 			clients.viewSelected = view;
+ 			if (view === 'faves'){
+ 				clients.getFaveList();
+ 			}
+
+ 		}
+
  }

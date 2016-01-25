@@ -2,46 +2,103 @@
 <html ng-app='Alimenting'>
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Alimenting with Ailments</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css"> 
+	<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script type="text/javascript" src="/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
 	<script type="text/javascript" src="/angular/angular.js"></script>
 	<script type="text/javascript" src="/js/main.js"></script>
 	<script type="text/javascript" src='/js/users_controller.js'></script>
 </head>
 <body>
-	<div class="welcome-div" ng-controller="UsersController as users">
-		<h1>Welcome to Alimenting with Ailments</h1>
-		<div ng-switch on="users.selection">
-			<a ng-click="users.activate('join')" href="#">Join Our Community</a>
-			<a href="#" ng-click="users.activate('signIn')">Sign In</a>
-			<a ng-click="users.activate('ailments')" href="#">View Aliments for Specific Ailments</a>
-			<form ng-switch-when="join" ng-submit="users.new()">
-				<label>First Name:</label>
-				<input type="text" ng-model="users.f_name"><br>
-				<label>Last Name:</label>
-				<input type="text" ng-model="users.l_name"><br>
-				<label>E-mail:</label>
-				<input type="text" ng-model="users.email"><br>
-				<label>Password:</label>
-				<input type="password"  ng-model="users.password"><br>
-				<input type="submit" id="add-user-btn" value="Join">
-	 		</form>
-			
-			<form ng-switch-when="signIn" ng-submit="users.signIn()">
-				<label>E-mail:</label>
-				<input type="text" ng-model="users.email"><br>
-				<label>Password:</label>
-				<input type="password" ng-model="users.password"><br>
-				<input type="submit" id="sign-in-btn" value="Sign In">
-			</form>
+	<div class="container">
+		<div class="welcome-div" ng-controller="UsersController as users">
+			<div class="jumbotron">
+				<h1 class="text-center">Welcome to Alimenting with Ailments</h1>
+				<p class="text-center">Where eating with restrictive diets is made easy.  Please join our community to have access to recipes based on dietary restrictions specific to your ailments.  The best part? We did all the research for you!</p>
+			</div><!--closes div class jumbotron-->
+			<div ng-switch on="users.selection">
+				<ul class ="nav nav-tabs">
+					<li role ="presentation"><a ng-click="users.activate('join')" href="#">Join Our Community</a></li>
+					<li role ="presentation"><a href="#" ng-click="users.activate('signIn')">Sign In</a></li>
+					<li role ="presentation"><a ng-click="users.activate('ailments')" href="#">View Aliments for Specific Ailments</a></li>
+				</ul>
 
-		
-			<div ng-switch-when="ailments">
-				<div ng-include src="'/ailments'"></div>
-			</div>
-		</div><!--ends ng-switch-->
-	</div><!--end usersController-->
+				<div class="row form-container">
+					<div class="col-md-2"></div>
+					<div class="col-md-6">
+						<form class="form-horizontal" ng-switch-when="join" ng-submit="users.new()">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">First Name:</label>
+								<div class="col-sm-10">
+									<input type="text" class ="form-control" ng-model="users.f_name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Last Name:</label>
+								<div class="col-sm-10">
+									<input type="text" class ="form-control" ng-model="users.l_name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">E-mail:</label>
+								<div class="col-sm-10">
+									<input type="text" class ="form-control" ng-model="users.email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Password:</label>
+								<div class="col-sm-10">
+									<input type="password" class ="form-control" ng-model="users.password">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<input type="submit" class="btn btn-default" value="Join">
+								</div>
+							</div> 
+				 		</form>
+				 	</div><!--end of div class col-md-6-->
+				 	<div class="col-md-4"></div>
+			 	</div><!--end of div class row-->
+				
+				<div class="row form-container">
+					<div class="col-md-2"></div>
+						<div class="col-md-6">
+							<form class="form-horizontal" ng-switch-when="signIn" ng-submit="users.signIn()">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">E-mail:</label>
+									<div class="col-sm-10">
+										<input type="text" class ="form-control" ng-model="users.email">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Password:</label>
+									<div class="col-sm-10">
+										<input type="password" class ="form-control" ng-model="users.password">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<input type="submit" class="btn btn-default" value="Sign In">
+									</div>
+								</div>
+							</form>
+						</div><!--end of div class col-md-6-->
+				 	<div class="col-md-4"></div>
+				</div><!--closes form-container div-->
+
+			
+				<div ng-switch-when="ailments">
+					<div ng-include src="'/ailments'"></div>
+				</div>
+			</div><!--ends ng-switch-->
+		</div><!--end usersController-->
+	</div><!--end div for container-->
 
 </body>
 </html>

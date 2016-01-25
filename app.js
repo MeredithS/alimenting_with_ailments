@@ -20,7 +20,6 @@ var authenticateUser = function(e_mail, password, callback) {
   });
 };
 
-// app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
@@ -137,46 +136,79 @@ app.get('/recipes/:ailment', function(req,res){
 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 		.header("Accept", "application/json")
 		.end(function (result) { //this returns a list of recipes based on the foods that you should increase consumption of
-			var goodRecipes =[];
-  		result.body.forEach(function(recipe){ //this loops through each of the recipes returned above.
-  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
-					.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
-					.end(function (result) { //this returns information about a specific recipe
-						var allIng =[];
-  					ingredients = result.body.extendedIngredients
-  					ingredients.forEach(function(ingredient){
-  						var ingredientArray = ingredient.name.split(" ");
-  						allIng = allIng.concat(ingredientArray); //this is putting on the ingredients for each recipe into an array
-  					})
-  						// console.log("all Ingredients: "+ allIng);
-  						var isOkay;
-  						var badRecipe;
-  						for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
-  							for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
-  								if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
-  									isOkay = false; //if the ingredient matches on of the foods to avoid set the variable isOkay to false and exit the inside loop
-  									return
-  								}else{
-  									isOkay = true; //else set to true and keep iterating through the array
-  								}
-  							}
-	  						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
-	  							badRecipe = true
-	  							return
-	  						}else{
-	  							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
-	  						}
-  						}
-  						// console.log(badRecipe);
-  						if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
-  							goodRecipes.push(recipe); //push recipe into array.
-  						}
-				});
-  		})
-				console.log(goodRecipes);
+			res.json(result.body)
+			// var goodRecipes =[];
+  	// 	result.body.forEach(function(recipe){ //this loops through each of the recipes returned above.
+  	// 		unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
+			// 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+			// 		.end(function (result) { //this returns information about a specific recipe
+			// 			var allIng =[];
+  	// 				ingredients = result.body.extendedIngredients
+  	// 				ingredients.forEach(function(ingredient){
+  	// 					var ingredientArray = ingredient.name.split(" ");
+  	// 					allIng = allIng.concat(ingredientArray); //this is putting on the ingredients for each recipe into an array
+  	// 				})
+  	// 					// console.log("all Ingredients: "+ allIng);
+  	// 					var isOkay;
+  	// 					var badRecipe;
+  	// 					for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
+  	// 						for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
+  	// 							if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
+  	// 								isOkay = false; //if the ingredient matches one of the foods to avoid set the variable isOkay to false and exit the inside loop
+  	// 								return
+  	// 							}else{
+  	// 								isOkay = true; //else set to true and keep iterating through the array
+  	// 							}
+  	// 						}
+	  // 						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
+	  // 							badRecipe = true
+	  // 							return
+	  // 						}else{
+	  // 							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
+	  // 						}
+  	// 					}
+  	// 					// console.log(badRecipe);
+  	// 					if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
+  	// 						goodRecipes.push(recipe); //push recipe into array.
+  	// 					}
+			// 	});
+  	// 	})
+			// 	console.log(goodRecipes);
 		});
 	})
 });
+
+app.post('/removeAilment', function(req,res){
+	var name = req.body.name;
+	db.collection('users').update({_id: ObjectId(req.session.userID)},{$pull:{ailments: name}}, function(err,data){
+		res.end();
+	})
+})
+
+app.post('/myfaves', function(req,res){
+	var id = req.body.id;
+	db.collection('users').update({_id: ObjectId(req.session.userID)},{$push:{fav_recipies: id}}, function(err,data){
+		res.end();
+	});
+});
+
+app.get('/myfaves', function(req,res){
+	res.render("indexPartial");
+})
+
+var myRecipes =[];
+app.get('/myfaverecipes', function(req,res){
+	db.collection('users').findOne({_id: ObjectId(req.session.userID)}, function(err,result){
+		var myRecipeIds = (result.fav_recipies);
+		myRecipeIds.forEach(function(recipe){
+			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe+"/information")
+					.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
+					.end(function (result) {
+						myRecipes.push(result.body);
+					})
+		})
+	})
+})
 
 
 app.listen(process.env.PORT || 3000);

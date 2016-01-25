@@ -1,0 +1,15 @@
+.ailment-menu{
+	margin-bottom: 2%;
+}
+li{
+	list-style-type: none;
+}
+ul.nav.nav-pills {
+    text-align: right;
+}
+
+.nav-pills>li {
+		margin-top: 2%;
+    float: none;
+    display: inline-block;
+}
