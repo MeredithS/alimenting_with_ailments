@@ -26,6 +26,12 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname +'/bower_components'));
 app.set('view engine', 'ejs');
 
+app.use(function(req, res, next) {
+	console.log(req.method, req.url);
+	next();
+});
+
+
 var mongoUrl = process.env.MONGOLAB_URI|| 'mongodb://localhost:27017/aliment_app';
 
 app.use(session({
@@ -145,47 +151,54 @@ app.get('/recipes/:ailment', function(req,res){
 	  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
 	  			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 	  			.end(function (result) { //this returns information about a specific recipe
-	  				var allIng =[];
+	  				console.log("Got info from API.");
 	  				var ingredients = result.body.ingredients
 	  				// console.log('ingredients:', ingredients);
-	  				ingredients.forEach(function(ingredient){
-	  					var ingredientArray = ingredient.split(" ");
-	  						allIng = allIng.concat(ingredientArray); //this is putting in the ingredients for each recipe into an array
-	  					})
-	  						// console.log("all Ingredients: "+ allIng);
+
+	  				var allIng = ingredients.map(function(ingredient){
+	  					return ingredient.split(" ");
+	  				});
+	  				var flatIngredients = allIng.reduce(function(a,b) {
+	  					return a.concat(b);
+	  				})
+	  				// console.log(flatIngredients);
+	  				// 		// console.log("all Ingredients: "+ allIng);
 	  						var isOkay;
 	  						var badRecipe;
-	  						for(i=0; i<allIng.length; i++){ //this is looping throught all the ingredients of a recipe
-	  							for(a=0; a<avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
+	  						for(i=0; i< flatIngredients.length; i++){ //this is looping throught all the ingredients of a recipe
+	  							for(a=0; a < avoid.length; a++){ // this is looping through all the ingredients you should avoid based on your ailment.
 	  								if(allIng[i] === avoid[a]){ // this is comparing each ingredient to the array of foods to avoid
 	  									isOkay = false; //if the ingredient matches one of the foods to avoid set the variable isOkay to false and exit the inside loop
-	  									return
-	  								}else{
+	  									return;
+	  								} else {
 	  									isOkay = true; //else set to true and keep iterating through the array
 	  								}
-	  							}
+		  						}
 		  						if(isOkay === false){ //if isOkay is false by the time the loop is ended or exited set the variabe badRecipe to true and exit the outside loop
 		  							badRecipe = true
-		  							return
-		  						}else{
+		  							return;
+		  						} else {
 		  							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
 		  						}
 		  					}
-	  						// console.log(badRecipe);
-	  						if(badRecipe === false){ //if badRecipe is false by the time the loop is done or excited then:
-	  							goodRecipes.push(recipe); //push recipe into array.
-	  							console.log("I pushed in a recipe!")
-	  							resolve();
-	  						} else {
-	  							reject();
-	  						}
-	  					});
+  						console.log(badRecipe);
+
+  						if (!badRecipe) { //if badRecipe is false by the time the loop is done or excited then:
+  							goodRecipes.push(recipe); //push recipe into array.
+  							console.log("I pushed in a recipe!")
+  							resolve();
+  						} else {
+  							console.log('I did not push in that terrible health hazard.');
+  							reject();
+  						}
+  					});
 	  		})// ends return of new promise
 
 			}); // ends map to allPromises function
 			Promise.all(allPromises).then(function() {
 				// console.log(goodRecipes);
 				console.log('I DID IT');
+				res.json(goodRecipes);
 			});
 		}); // ends first API call function
 	});// ends db call callback
