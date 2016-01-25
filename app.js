@@ -25,15 +25,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname +'/bower_components'));
 app.set('view engine', 'ejs');
+
+var mongoUrl = process.env.MONGOLAB_URI|| 'mongodb://localhost:27017/aliment_app';
+
 app.use(session({
   secret: 'Monty',
-  store: new MongoStore({url: "mongodb://localhost:27017/aliment_app" })
+  store: new MongoStore({url: mongoUrl })
 }))
 
 var db;
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId
-var mongoUrl = process.env.MONGOLAB_URI|| 'mongodb://localhost:27017/aliment_app';
 MongoClient.connect(mongoUrl, function(err, database){
 		if(err){ throw err; }
 		db = database;
