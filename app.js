@@ -90,7 +90,7 @@ app.post('/login',function(req,res){
       req.session.name = user.first_name;
       req.session.userID = user._id;
       console.log('in session'); 
-      res.redirect('/index');
+      // res.redirect('/index');//could not figure out why this wouldn't work
     }
 	});
 })
