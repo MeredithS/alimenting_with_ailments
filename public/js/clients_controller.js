@@ -14,21 +14,21 @@
 				.get('/myailments')
 				.then(function(response){
 					clients.viewSelected = 'ailments';
-					clients.me = response.data
-					clients.myailmentslist = response.data.ailments
+					clients.me = response.data;
+					clients.myailmentslist = response.data.ailments;
 			})
-		}
+		};
 
 		clients.getMyAilments();
 
 		clients.addAilment = function(){
 			var ailment = {ailment :clients.selected}
 			$http
-				.post('/users/addAilment',ailment)
+				.post('/users/addAilment',ailment);
 				.then(function(response){
 					clients.getMyAilments();
 			})
-		}
+		};
 
  		clients.foodList = function(selection){
  			$http
@@ -39,22 +39,21 @@
 				clients.foodsAvoidList = response.data.foods_avoid;
 				clients.sources = response.data.resources
 			})
- 		}
+ 		};
 
  		clients.getrecipe = function(selection){
  			$http
  			.get('/recipes/'+selection)
  			.then(function(response){
- 				console.log(response.data);
  				clients.suggestedRecipes = response.data;
  			})
- 		}
+ 		};
 
  		clients.activateAilment = function(selection){
  			clients.ailmentSelected = selection
  			clients.foodList(selection);
  			clients.getrecipe(selection);
- 		}
+ 		};
 
  		clients.removeAilment = function(selection){
  			var ailment = {name: selection}
@@ -63,7 +62,7 @@
  			.then(function(response){
  				clients.getMyAilments();
  			})
- 		}
+ 		};
 
  		clients.addToFaves = function(id){
  			var recipeId = {id:id};
@@ -72,7 +71,7 @@
  			.then(function(response){
 
  			})
- 		}
+ 		};
 
  		clients.removeFave = function(id){
  			var recipeId = {id:id};
@@ -82,7 +81,7 @@
  				clients.getFaveList();
 
  			})
- 		}
+ 		};
 
  		clients.getFaveList = function(){
  			$http
@@ -90,7 +89,7 @@
  			.then(function(response){
  				clients.myFavRecipes = response.data;
  			})
- 		}
+ 		};
 
  		clients.activateView = function(view){
  			clients.viewSelected = view;
@@ -98,6 +97,6 @@
  				clients.getFaveList();
  			}
 
- 		}
+ 		};
 
- }
+ };

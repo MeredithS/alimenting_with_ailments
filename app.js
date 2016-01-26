@@ -155,7 +155,6 @@ app.get('/recipes/:ailment', function(req,res){
 	  			.end(function (result) { //this returns information about a specific recipe
 	  				console.log("Got info from API.");
 	  				var ingredients = result.body.ingredients
-	  				// console.log('ingredients:', ingredients);
 
 	  				var allIng = ingredients.map(function(ingredient){
 	  					return ingredient.split(" ");
@@ -163,8 +162,6 @@ app.get('/recipes/:ailment', function(req,res){
 	  				var flatIngredients = allIng.reduce(function(a,b) {
 	  					return a.concat(b);
 	  				})
-	  				// console.log(flatIngredients);
-	  				// 		// console.log("all Ingredients: "+ allIng);
 	  						var isOkay;
 	  						var badRecipe;
 	  						for(i=0; i< flatIngredients.length; i++){ //this is looping throught all the ingredients of a recipe
@@ -183,14 +180,11 @@ app.get('/recipes/:ailment', function(req,res){
 		  							badRecipe = false //else set badRecipe to false and continue looping throughout side loop
 		  						}
 		  					}
-  						console.log(badRecipe);
 
   						if (!badRecipe) { //if badRecipe is false by the time the loop is done or excited then:
   							goodRecipes.push(result.body); //push recipe into array.
-  							console.log("I pushed in a recipe!")
   							resolve();
   						} else {
-  							console.log('I did not push in that terrible health hazard.');
   							reject();
   						}
   					});
