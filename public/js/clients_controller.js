@@ -24,7 +24,7 @@
 		clients.addAilment = function(){
 			var ailment = {ailment :clients.selected}
 			$http
-				.post('/users/addAilment',ailment);
+				.post('/users/addAilment',ailment)
 				.then(function(response){
 					clients.getMyAilments();
 			})
