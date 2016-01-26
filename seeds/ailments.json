@@ -1,45 +1,46 @@
+[
 {
 	"name":"Gout",
 	"foods_consume":["beans", "lentils","legumes","fluids", "water", "low-fat dairy", "fat-free dairy", "whole grains", "oats", "brown rice", "barley","quinoa","sweet potatoes","fruits", "vegetables", "spinach","peas","asparagus","cauliflower", "mushrooms"],
 	"foods_limit":["white bread","cakes","candy","pasta","grouse","mutton", "salmon", "turkey", "partridge", "goose","pheasant"],
 	"foods_avoid":["organ meats", "brain", "sweetbreads", "heart", "kidney", "liver", "pork", "herring", "anchovies", "mackerel", "mussels", "smelt", "sardines", "scallops", "tuna", "yeast", "beer", "wine", "liquor", "juice","soda"],
 	"resources":["http://www.healthline.com/"]
-	}
+	},
 	{
 		"name":"Cancer",
 		"foods_consume":["apples","blueberries","arugula","bok choy", "broccoli", "brussels sprouts", "cabbage","cauliflower","chinese cabbage","collard greens","daikon radish","horseradish","kale","kohlrabi","land cress","mustard greens","radish","rutabaga","shepherd's purse","turnip","watercress","cherries","coffee","cranberries","flax seeds","grapefruit","beans","peas","lentils","soy","squash","tea","walnuts","amaranth", "barley", "buckwheat", "bulgur", "einkorn","farro", "millet","oats","quinoa","rice", "rye","spelt","wheat","wild rice","berries","garlic","grapes","grape juice","tomatoes"],
 		"foods_limit":["bacon", "sausage", "lunch meats", "hot dogs","alcohol"],
 		"foods_avoid":["soft drinks", "sports drinks","fruit-flavored drinks","sugar","french fries", "potato chips", "ice cream", "donuts"],
 		"resources":["American Institue for Cancer Research","American Cancer Society"]
-		}
+		},
 		{
 			"name":"Arthritis",
 			"foods_consume":["lettuce", "olives", "tomatoes", "cheese", "blackberries", "blueberries", "cherries", "strawberries", "spinach", "kale", "broccoli", "beans", "onions", "eggplant", "oatmeal","Salmon", "tuna", "sardines", "anchovies","walnuts", "pine nuts", "pistachios","almonds", "baked chicken","baked fish", "lentils","quinoa","flax seeds","pumpkin seeds","ginger","turmeric","herring", "mackerel", "rainbow trout", "Pacific oysters", "chia seeds", "seaweed", "soy","extra virgin olive oil","guava", "bell peppers", "oranges", "grapefruits", "pineapples", "kohlrabi", "papayas", "lemons", "potatoes", "brussels sprouts"],
 			"foods_limit": ["salt", "margarine", "cheese", "lard", "butter", "candy","White flour", "bread", "milk", "yogurt"],
 			"foods_avoid":["cookies", "corn chips", "potato chips", "pretzels", "corn oil", "safflower oil", "sunflower oil", "soy oil", "vegetable oil", "canned green beans", "canned vegetables", "canned soup", "fried chicken", "grilled fish", "refried beans","palm oil", "palm-kernel oil", "crackers"],
 				"resources":["Arthritis Foundation", "Healthline.com","Joy Bauer.com"]
-			}
-			{
+		},
+		{
 				"name":"Heartburn",
 				"foods_consume":["apples", "berries", "melons", "bananas", "peaches", "pears", "chicken", "fish", "turkey"],
 				"foods_limit":["grapefruit", "orange", "pineapple", "tomato","coffee"],
 				"foods_avoid":["alcohol","chocolate","tomato sauce", "onions", "garlic", "peppermint", "spearmint", "whole milk", "oil", "cold cuts", "sausage", "bacon","fried chicken", "fried fish"],
 				"resources":["Joy Bauer.com", "Jackson Regelbaum Gastroenterology"]
-				}
+				},
 				{
 					"name": "COPD",
 					"foods_consume":["bulgur","millet","quinoa","walnuts","almonds","hazelnuts", "pecans", "eggs", "extra virgin olive oil","avocado","salmon","beans","bananas","asparagus"],
 					"foods_limit":["yogurt","ice cream", "cheese", "butter", "buttermilk"],
 					"foods_avoid":["bacon", "cold cuts", "ham", "hot dogs", "salt", "broccoli", "cauliflower", "brussel sprouts", "radishes", "bok choy", "french fries", "onion rings", "jalapeno poppers", "fried chicken", "beer", "soda", "sparkling cider", "sparkling wine", "shrimp", "potatoes", "wine", "grapefruit", "orange", "pineapple", "fried", "tomato sauce", "chocolate", "coffee"],
 					"resources":["Lung Institue"]
-					}
+					},
 					{
 						"name":"High Cholesterol",
 						"foods_consume":["egg substitutes", "skim milk", "oat meal", "oat bran", "whole wheat flour", "brown rice", "cod", "tuna", "halibut", "salmon", "mackerel", "herring", "skinless chicken", "turkey", "lean beef","veal", "pork","lamb", "fish"],
 						"foods_limit":["red meat", "whole milk", "fried food", "organ meats", "egg yolks", "alcohol", "butter", "extra virgin olive oil", "peanut oil", "canola oil", "almonds", "walnuts", "corned beef", "pastrami", "ribs", "steak", "ground meat", "hot dogs", "bacon", "bologna", "liver", "kidney"],
 						"foods_avoid":["margarine", "cookies", "crackers", "snack cakes", "chips", "shortening","sugar"],
 						"resources":["Mayo Foundation for Medical Education and Research","Web MD"]
-						}
+						},
 						{
 							"name":"Diabetes",
 							"foods_consume":["amaranth", "barley", "buckwheat", "bulgur", "einkorn","farro", "millet","oats","quinoa","rice", "rye","spelt","wheat","wild rice", "broccoli", "spinach", "brussel sprouts", "carrots", "sweet potatoes", "pumpkin", "winter squash", "black beans", "garbanzo beans", "kidney beans", "pinto beans", "split peas", "lentils"],
@@ -47,3 +48,4 @@
 							"foods_avoid":["sugar", "canned soup", "pickles", "processed meat"],
 							"resources":["Center for Disease Control and Prevention"]
 							}
+						]

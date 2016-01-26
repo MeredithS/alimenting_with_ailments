@@ -9,6 +9,7 @@ var MongoStore = require('connect-mongo')(session)
 var authenticateUser = function(e_mail, password, callback) {
 	db.collection('users').findOne({e_mail: e_mail}, function(err, data) {
 		if (err) {throw err;}
+		if(data){
 		bcrypt.compare(password, data.password_digest, function(err, passwordsMatch) {
 			if (passwordsMatch) {
 				console.log('password correct')
@@ -16,7 +17,10 @@ var authenticateUser = function(e_mail, password, callback) {
 			} else {
 				callback(false);
 			}
-		})
+			});
+		}else{
+			callback(false);
+		}
 	});
 };
 
@@ -63,14 +67,32 @@ app.get('/ailments/list', function(req,res){
 		res.json({ailments: results})
 	});
 })
-app.post('/users/new', function(req,res){
+app.post('/users', function(req,res){
+	console.log("new user body");
+	console.log(req.body);
 	var new_user = req.body;
+	var email = req.body.e_mail;
+	var password = req.body.password_digest;
 	bcrypt.hash(req.body.password_digest,8,function(err,hash){
 		new_user.password_digest = hash;
 		new_user.ailments=[];
 		new_user.fav_recipies=[];
+		console.log("user to be inserted");
+		console.log(new_user);
 		db.collection('users').insert(new_user,function(err,result){
-			res.json(result);
+			if(!err){
+				console.log("inserted user:");
+				console.log(result);
+			}
+		});
+		db.collection('users').findOne({e_mail: email},function(err,user){
+			console.log(user);
+				req.session.name = user.first_name;
+				req.session.userID = user._id;
+				console.log('name: '+ user.first_name);
+				console.log('id" '+ user._id);
+				console.log('in session');  
+				res.redirect('/index');
 		})
 	})
 });
@@ -101,6 +123,8 @@ app.post('/login',function(req,res){
 			req.session.userID = user._id;
 			console.log('in session'); 
       res.redirect('/index');//could not figure out why this wouldn't work
+    }else{
+    	res.redirect('/');
     }
   });
 })

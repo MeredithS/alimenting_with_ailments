@@ -6,22 +6,6 @@ function UsersController($http){
 
 	users.isFoodListActive = false
 
-	users.new = function(){
-		var user ={first_name : users.f_name,
-							last_name: users.l_name,
-							e_mail: users.email,
-							password_digest: users.password}
-		$http
-			.post('/users/new', user)
-			.then(function(response){
-				users.f_name="";
-				users.l_name="";
-				users.email="";
-				users.password="";
-				users.pass_confirm="";
-			})
-	}
-
 	users.showAilments = function(){
 		$http
 			.get('/ailments/list')
