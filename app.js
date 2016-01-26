@@ -93,7 +93,9 @@ app.get('/index', function(req,res){
 })
 
 app.post('/login',function(req,res){
-	authenticateUser(req.body.e_mail, req.body.password, function(user){
+	console.log('login');
+	console.log(req.body);
+	authenticateUser(req.body.email, req.body.password, function(user){
 		if(user){
 			req.session.name = user.first_name;
 			req.session.userID = user._id;
@@ -184,7 +186,7 @@ app.get('/recipes/:ailment', function(req,res){
   						console.log(badRecipe);
 
   						if (!badRecipe) { //if badRecipe is false by the time the loop is done or excited then:
-  							goodRecipes.push(recipe); //push recipe into array.
+  							goodRecipes.push(result.body); //push recipe into array.
   							console.log("I pushed in a recipe!")
   							resolve();
   						} else {
@@ -196,8 +198,6 @@ app.get('/recipes/:ailment', function(req,res){
 
 			}); // ends map to allPromises function
 			Promise.all(allPromises).then(function() {
-				// console.log(goodRecipes);
-				console.log('I DID IT');
 				res.json(goodRecipes);
 			});
 		}); // ends first API call function

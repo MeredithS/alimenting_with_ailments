@@ -1,5 +1,5 @@
-<h2>Please Select your Ailment</h2>
-	<select ng-change="users.changed()" name="ailmentSelected" id="ailmentSelected" ng-model="users.selected">
+<h2 class='headers'>Please Select your Ailment</h2>
+	<select ng-change="users.changed()" name="ailmentSelected" class="ailment-selected" ng-model="users.selected">
 		<option ng-repeat="ailment in users.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 	</select>
 		<div ng-show="users.isFoodsListActive" class="foods-list">

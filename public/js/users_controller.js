@@ -22,16 +22,6 @@ function UsersController($http){
 			})
 	}
 
-	users.signIn = function(){
-		console.log('clicked')
-		var user = {e_mail: users.email, password: users.password}
-		$http
-			.post('/login', user)
-			.then(function(response){
-				
-			})
-	}
-
 	users.showAilments = function(){
 		$http
 			.get('/ailments/list')

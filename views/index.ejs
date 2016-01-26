@@ -29,42 +29,51 @@
 	  	</div>
 
 	  	<div ng-switch-when="ailments">
-				<h1>Welcome {{clients.me.first_name}}</h1> 
-				<h2>My Ailments</h2>
+				<h1 class="headers">Welcome {{clients.me.first_name}}</h1> 
+				<h2 class="headers">My Ailments</h2>
 					<select name="ailmentSelected" class="ailment-menu" ng-model="clients.selected">
 						<option ng-repeat="ailment in clients.ailmentsList" value="{{ailment._id}}">{{ailment.name}}</option>
 					</select>
 					<button ng-click="clients.addAilment()">Add Ailment</button><br>
 
-					<div ng-repeat="myAilment in clients.myailmentslist" >
-				    <h3 ng-click="clients.activateAilment(myAilment)">{{myAilment}}</h3>
-				    <button ng-click="clients.removeAilment(myAilment)">Remove</button>
-			    </div>
-					 
-					<div ng-if="clients.ailmentSelected"  class="foods-list">
-						<div class="row">
-							<div class="col-md-4">
-								<h2>Foods to Consume</h2>
-								<ul>
-									<li ng-repeat="food in clients.foodsConsumeList">{{food}}</li>
-								</ul>
-							</div><!--end of col-md-4-->
-							<div class="col-md-4">
-								<h2>Foods to Limit</h2>
-								<ul>
-									<li ng-repeat="food in clients.foodsLimitList">{{food}}</li>
-								</ul>
-							</div><!--end of col-md-4-->
-							<div class="col-md-4">
-								<h2>Foods to Avoid</h2>
-								<ul>
-									<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
-								</ul>
-							</div><!--end of col-md-4-->
-						</div><!--end of div row-->
-						<h5>sources: {{clients.sources}}</h5>
+					<div  >
+						<div ng-repeat="myAilment in clients.myailmentslist" class="btn-group">
+						  <button ng-click="clients.activateAilment(myAilment)" type="button" class="btn btn-success">{{myAilment}}</button>
+						  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li ng-click="clients.removeAilment(myAilment)"><a href="#">Remove</a></li>
+						  </ul>
+						</div>
+					</div>
+					<div ng-if="clients.ailmentSelected">
+						<div class="foods-list">
+							<div class="row">
+								<div class="col-md-4">
+									<h2>Foods to Consume</h2>
+									<ul>
+										<li ng-repeat="food in clients.foodsConsumeList">{{food}}</li>
+									</ul>
+								</div><!--end of col-md-4-->
+								<div class="col-md-4">
+									<h2>Foods to Limit</h2>
+									<ul>
+										<li ng-repeat="food in clients.foodsLimitList">{{food}}</li>
+									</ul>
+								</div><!--end of col-md-4-->
+								<div class="col-md-4">
+									<h2>Foods to Avoid</h2>
+									<ul>
+										<li ng-repeat="food in clients.foodsAvoidList">{{food}}</li>
+									</ul>
+								</div><!--end of col-md-4-->
+							</div><!--end of div row-->
+							<h5>sources: {{clients.sources}}</h5>
+						</div><!--ends foods list-->
 						<div class="recipes">
-							<h2>Suggested Recepies</h2>
+							<h1 class="recipe-header">Suggested Recipes</h1>
 							<div class="row">
 							  <div ng-repeat="recipe in clients.suggestedRecipes" class="col-sm-6 col-md-4">
 							    <div class="thumbnail">
@@ -72,7 +81,7 @@
 							      <div class="caption">
 							        <h3>{{recipe.title}}</h3>
 							        <!-- <p>...</p> -->
-							        <p><a href="#" ng-click="clients.addToFaves(recipe.id)" class="btn btn-primary" role="button">Add to Favorites</a> <a href="#" class="btn btn-default" role="button">Checkout Recipe</a></p>
+							        <p><a href="#" ng-click="clients.addToFaves(recipe.id)" class="btn btn-primary" role="button">Add to Favorites</a> <a href="{{recipe.sourceUrl}}" class="btn btn-default" role="button">Checkout Recipe</a></p>
 							      </div>
 							    </div>
 							  </div><!--end of div ng-repeat suggestedRecipes-->
