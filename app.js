@@ -171,6 +171,7 @@ app.get('/recipes/:ailment', function(req,res){
 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 		.header("Accept", "application/json")
 		.end(function (result) { //this returns a list of recipes based on the foods that you should increase consumption of
+			// console.log("Result:", result.body)
 
 			var allPromises = result.body.map(function(recipe) {
 				return new Promise(function(resolve, reject) {
@@ -208,7 +209,7 @@ app.get('/recipes/:ailment', function(req,res){
 
   						if (!badRecipe) { //if badRecipe is false by the time the loop is done or excited then:
   							goodRecipes.push(result.body); //push recipe into array.
-  							resolve();
+  							resolve(result.body);
   						} else {
   							reject();
   						}
@@ -216,7 +217,8 @@ app.get('/recipes/:ailment', function(req,res){
 	  		})// ends return of new promise
 
 			}); // ends map to allPromises function
-			Promise.all(allPromises).then(function() {
+			Promise.all(allPromises).then(function(arrayOfResults) {
+				console.log("WHEEEE")
 				res.json(goodRecipes);
 			});
 		}); // ends first API call function
