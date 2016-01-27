@@ -177,11 +177,11 @@ app.get('/recipes/:ailment', function(req,res){
 	  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
 	  			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 	  			.end(function (result) { //this returns information about a specific recipe
-	  				console.log("Got info from API.");
-	  				var ingredients = result.body.ingredients
+	  				// console.log(result.body);
+	  				var ingredients = result.body.extendedIngredients;
 
 	  				var allIng = ingredients.map(function(ingredient){
-	  					return ingredient.split(" ");
+	  					return ingredient.name
 	  				});
 	  				var flatIngredients = allIng.reduce(function(a,b) {
 	  					return a.concat(b);
