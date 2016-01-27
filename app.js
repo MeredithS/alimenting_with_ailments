@@ -158,6 +158,7 @@ app.get('/myaliments/:ailment', function(req,res){
 });
 
 app.get('/recipes/:ailment', function(req,res){
+	console.log('getting recipes');
 	var goodRecipes =[];
 	var name =req.params.ailment
 	db.collection('ailments').findOne({name: name},function(err,result){//this gets the information on the ailment that was clicked

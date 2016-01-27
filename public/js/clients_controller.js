@@ -45,6 +45,7 @@
  			$http
  			.get('/recipes/'+selection)
  			.then(function(response){
+ 				console.log(response.data);
  				clients.suggestedRecipes = response.data;
  			})
  		};
