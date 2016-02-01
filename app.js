@@ -162,6 +162,7 @@ app.get('/recipes/:ailment', function(req,res){
 	var goodRecipes =[];
 	var name =req.params.ailment
 	db.collection('ailments').findOne({name: name},function(err,result){//this gets the information on the ailment that was clicked
+		console.log('getting ailment info');
 		var avoid = result.foods_avoid;
 		var consume = result.foods_consume;
 		var consumeString = consume.join(',');
@@ -171,7 +172,7 @@ app.get('/recipes/:ailment', function(req,res){
 		.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 		.header("Accept", "application/json")
 		.end(function (result) { //this returns a list of recipes based on the foods that you should increase consumption of
-			// console.log("Result:", result.body)
+			console.log("getting 20 recipes");
 
 			var allPromises = result.body.map(function(recipe) {
 				return new Promise(function(resolve, reject) {
@@ -179,7 +180,7 @@ app.get('/recipes/:ailment', function(req,res){
 	  			unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+recipe.id+"/information")
 	  			.header("X-Mashape-Key", process.env.X_MASHAPE_KEY)
 	  			.end(function (result) { //this returns information about a specific recipe
-	  				// console.log(result.body);
+	  				console.log('get ingredients for each recipe');
 	  				var ingredients = result.body.extendedIngredients;
 
 	  				var allIng = ingredients.map(function(ingredient){
